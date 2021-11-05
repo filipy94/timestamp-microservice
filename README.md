@@ -5,6 +5,12 @@
 
 This project is part of the FreeCodeCamp's Back End Development and APIs Certification.
 
+Packages used:
+
+- [Express](https://expressjs.com/)
+- [Moment.js](https://momentjs.com/)
+- [body-parser](https://github.com/expressjs/body-parser#readme)
+
 
 ## Functionality :heavy_check_mark:
 

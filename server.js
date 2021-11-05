@@ -4,10 +4,16 @@
 // init project
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var moment = require('moment');
+moment().format();
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
+const { now } = require('moment');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
 
 // http://expressjs.com/en/starter/static-files.html
@@ -31,34 +37,39 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-
-app.get('/api/:date', (req, res, next) => {
-  if (!/\D/.test(req.params.date)) {          //check if is Unix value
-    req.toNum = Number(req.params.date);
-    req.date = new Date(req.toNum);
-    req.unix = req.toNum;
-    next();
-  } else {
-    req.date = new Date(req.params.date);
-    if (req.date == 'Invalid Date') {         //check if is a valid new Date(date_string)
-      req.unix = false;
+app
+  .route('/api/:date?')
+  // timestamp request API
+  .get((req, res, next) => {
+    if(!isNaN(req.params.date)) {
+      req.date = moment.unix(req.params.date/1000).utc();
       next();
     } else {
-      req.unix = Date.parse(req.params.date);
+      req.date = moment.utc(req.params.date);
       next();
     };
-  };
-}, (req, res) => {
-  if (!req.unix) {
-    res.json({ 'error' : "Invalid Date" });
-  } else {
-    res.json({'unix': req.unix, 'utc': req.date.toUTCString()});
-  };
-});
-
-app.get('/api', (req, res, next) => {
-  req.date = new Date();
-  next();
-}, (req, res) => {
-  res.json({'unix': Date.parse(req.date), 'utc': req.date.toUTCString()});
-});
+  }, (req, res) => {
+    req.utc = new Date(req.date);
+    if (req.utc.toString() === 'Invalid Date') {
+      res.json({error: req.utc.toString()});
+    } else {
+      res.json({unix: Date.parse(req.date), utc: req.utc.toUTCString()});
+    };
+  })
+  // timestamp post API
+  .post((req, res, next) => {
+    if(!isNaN(req.body.date)) {
+      req.date = moment.unix(req.body.date/1000).utc();
+      next();
+    } else {
+      req.date = moment.utc(req.body.date);
+      next();
+    };
+  }, (req, res) => {
+    req.utc = new Date(req.date);
+    if (req.utc.toString() === 'Invalid Date') {
+      res.json({error: req.utc.toString()});
+    } else {
+      res.json({unix: Date.parse(req.date), utc: req.utc.toUTCString()});
+    };
+  });

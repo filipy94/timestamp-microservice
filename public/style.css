@@ -16,13 +16,13 @@ body {
 }
 
 .title {
-	padding: 5vh 0 5vh 0;
+	padding: 1vh 0 1vh 0;
 }
 .container {
-	padding: 5vh 0 5vh 0;
+	padding: 1vh 0 1vh 0;
 }
 footer {
-	padding-top: 10vh;
+	padding-top: 3vh;
 }
 
 code {
@@ -42,5 +42,6 @@ hr {
 	margin: 0 30vw 0 30vw;
 }
 h2 {
+	padding-top: 2vh;
 	margin-bottom: 3px;
 }

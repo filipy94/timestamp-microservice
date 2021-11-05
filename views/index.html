@@ -22,9 +22,17 @@
     </ul>
     <br>
     <h2>Example Output:</h2><hr>
-      <p>
-        <code>{"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"}</code>
-      </p>
+      <p><code>{"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"}</code></p>
+    <h2>Try Yourself:</h2><hr>
+    <p>Insert below any data string, the string must be in a 
+      <a href="https://datatracker.ietf.org/doc/html/rfc2822#page-14" target="_blank">IETF-compliant RFC 2822 timestamps</a> 
+      or <a href="https://262.ecma-international.org/5.1/#sec-15.9.1.15" target="_blank">ISO8601</a> format.
+    </p>
+    <form action="/api/:date" method="post">
+      <label>Insert a date:</label>
+      <input type="text" name="date" placeholder="2015-12-25">
+      <input type="submit" value="Submit">
+    </form>
   </div>
   <footer>
     <p>
